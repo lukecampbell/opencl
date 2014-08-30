@@ -1,3 +1,6 @@
 *.xcodeproj
 *.swp
 .DS_Store
+*.o
+devices
+tags

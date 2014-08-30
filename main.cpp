@@ -2,20 +2,39 @@
 #include <iostream>
 
 #include "platform.h"
+#include "clexception.h"
+
 
 int main(int argc, char *argv[])
 {
+    cl_int err;
+    std::vector<CLPlatform> platforms;
+    err = get_platforms(platforms);
+    if(err != CL_SUCCESS)
+    {
+        std::cerr << "Failed to get platforms" << std::endl;
+    }
 
-    std::vector<CLPlatform> platforms = get_platforms();
-    CLPlatform platform = platforms[0];
     for(std::vector<CLPlatform>::iterator it = platforms.begin(); it != platforms.end(); it++)
     {
         CLPlatform *platform = &(*it);
-        std::cout << "Name: "       << platform->get_name()       << std::endl;
-        std::cout << "Vendor: "     << platform->get_vendor()     << std::endl;
-        std::cout << "Version: "    << platform->get_version()    << std::endl;
-        std::cout << "Profile: "    << platform->get_profile()    << std::endl;
-        std::cout << "Extensions: " << platform->get_extensions() << std::endl;
+        std::string buf;
+        try 
+        {
+            CLPlatform::err_check(platform->get_name(buf));
+            std::cout << "Name: " << buf << std::endl;
+            CLPlatform::err_check(platform->get_vendor(buf));
+            std::cout << "Vendor: " << buf << std::endl;
+            CLPlatform::err_check(platform->get_version(buf));
+            std::cout << "Version: " << buf << std::endl;
+            CLPlatform::err_check(platform->get_profile(buf));
+            std::cout << "Profile: " << buf << std::endl;
+            CLPlatform::err_check(platform->get_extensions(buf));
+            std::cout << "Extensions: " << buf << std::endl;
+        } catch(CLException &e) {
+            std::cerr << e.what() << std::endl;
+            return 1;
+        }
     }
 
     return 0;
