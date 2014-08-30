@@ -9,12 +9,20 @@ class CLPlatform
 {
 public:
     CLPlatform(cl_platform_id platform_id);
-    cl_int get_profile(std::string &out);
-    cl_int get_version(std::string &out);
-    cl_int get_name(std::string &out);
-    cl_int get_vendor(std::string &out);
-    cl_int get_extensions(std::string &out);
-    cl_int get_info(cl_platform_info info_enum, std::string &out);
+    
+    cl_platform_id get_platform_id() const { return platform_id; }
+   
+    /* Info Getters */
+    cl_int get_info(cl_platform_info info_enum, std::string &out) const;
+    
+    cl_int get_name(std::string &out) const;
+    cl_int get_vendor(std::string &out) const;
+    cl_int get_version(std::string &out) const;
+    cl_int get_profile(std::string &out) const;
+    cl_int get_extensions(std::string &out) const;
+   
+    /* Statics */
+    static cl_int get_platforms(std::vector<CLPlatform> &out);
     static void err_check(cl_int err);
 
 private:
@@ -22,6 +30,5 @@ private:
 
 };
 
-cl_int get_platforms(std::vector<CLPlatform> &out);
 
 #endif /* __PLATFORM_H__ */

@@ -8,7 +8,7 @@ CLPlatform::CLPlatform(cl_platform_id platform_id) : platform_id(platform_id)
 
 }
 
-cl_int CLPlatform::get_info(cl_platform_info info_enum, std::string &out)
+cl_int CLPlatform::get_info(cl_platform_info info_enum, std::string &out) const
 {
     char *info;
     size_t info_size;
@@ -16,13 +16,15 @@ cl_int CLPlatform::get_info(cl_platform_info info_enum, std::string &out)
     cl_int err;
 
     err = clGetPlatformInfo(platform_id, info_enum, 0, NULL, &info_size);
-    if(err != CL_SUCCESS) {
+    if(err != CL_SUCCESS) 
+    {
         return err;
     }
 
     info = new char[info_size+1];
     err = clGetPlatformInfo(platform_id, info_enum, info_size, info, &info_size_ret);
-    if(err != CL_SUCCESS) {
+    if(err != CL_SUCCESS) 
+    {
         return err;
     }
     info[info_size] = '\0'; // Ensure Null Terminated
@@ -32,27 +34,27 @@ cl_int CLPlatform::get_info(cl_platform_info info_enum, std::string &out)
     return err;
 }
 
-cl_int CLPlatform::get_profile(std::string &out)
+cl_int CLPlatform::get_profile(std::string &out) const
 {
     return get_info(CL_PLATFORM_PROFILE, out);
 }
 
-cl_int CLPlatform::get_version(std::string &out)
+cl_int CLPlatform::get_version(std::string &out) const
 {
     return get_info(CL_PLATFORM_VERSION, out);
 }
 
-cl_int CLPlatform::get_name(std::string &out)
+cl_int CLPlatform::get_name(std::string &out) const
 {
     return get_info(CL_PLATFORM_NAME, out);
 }
 
-cl_int CLPlatform::get_vendor(std::string &out)
+cl_int CLPlatform::get_vendor(std::string &out) const
 {
     return get_info(CL_PLATFORM_VENDOR, out);
 }
 
-cl_int CLPlatform::get_extensions(std::string &out)
+cl_int CLPlatform::get_extensions(std::string &out) const
 {
     return get_info(CL_PLATFORM_EXTENSIONS, out);
 }
@@ -62,13 +64,13 @@ void CLPlatform::err_check(cl_int err)
     switch(err)
     {
         case CL_INVALID_PLATFORM:
-           std::cerr << "Invalid Platform" << std::endl;
+           std::cerr << "Invalid platform" << std::endl;
            break;
         case CL_INVALID_DEVICE_TYPE: 
-           std::cerr << "Invalid Device Type" << std::endl;
+           std::cerr << "Invalid device type" << std::endl;
            break;
         case CL_INVALID_VALUE:
-           std::cerr << "Invalid Value" << std::endl;
+           std::cerr << "Invalid value" << std::endl;
            break;
         case CL_DEVICE_NOT_FOUND:
            std::cerr << "Device not found" << std::endl;
@@ -88,7 +90,7 @@ void CLPlatform::err_check(cl_int err)
     }
 }
 
-cl_int get_platforms(std::vector<CLPlatform> &out)
+cl_int CLPlatform::get_platforms(std::vector<CLPlatform> &out)
 {
     cl_platform_id *platform_ids; // Unlikely to have more than 10 platforms
     cl_uint num_platforms = 0;

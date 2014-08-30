@@ -1,7 +1,7 @@
 CC=g++
 CFLAGS=-g -ggdb -Wall
 LDFLAGS=-framework OpenCL
-OBJECTS=main.o platform.o
+OBJECTS=main.o platform.o device.o
 
 all: devices
 
