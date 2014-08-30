@@ -30,6 +30,18 @@ cl_int CLDevice::get_info(cl_device_info info_enum, std::string &out) const
     return err;
 }
 
+cl_int CLDevice::get_info(cl_device_info info_enum, cl_bool &out) const
+{
+    size_t info_size;
+    cl_int err;
+    err = clGetDeviceInfo(device_id, info_enum, sizeof(cl_bool), &out, &info_size);
+    if(err != CL_SUCCESS)
+    {
+        return err;
+    }
+    return err;
+}
+
 cl_int CLDevice::get_device_built_in_kernels(std::string &out) const
 {
     return get_info(CL_DEVICE_BUILT_IN_KERNELS, out);
@@ -70,6 +82,45 @@ cl_int CLDevice::get_driver_version(std::string &out) const
     return get_info(CL_DRIVER_VERSION, out);
 }
 
+cl_int CLDevice::get_device_available(cl_bool &out) const
+{
+    return get_info(CL_DEVICE_AVAILABLE, out);
+}
+
+cl_int CLDevice::get_device_compiler_available(cl_bool &out) const
+{
+    return get_info(CL_DEVICE_COMPILER_AVAILABLE, out);
+}
+
+cl_int CLDevice::get_device_endian_little(cl_bool &out) const
+{
+    return get_info(CL_DEVICE_ENDIAN_LITTLE, out);
+}
+
+cl_int CLDevice::get_device_error_correction_support(cl_bool &out) const
+{
+    return get_info(CL_DEVICE_ERROR_CORRECTION_SUPPORT, out);
+}
+
+cl_int CLDevice::get_device_host_unified_memory(cl_bool &out) const
+{
+    return get_info(CL_DEVICE_HOST_UNIFIED_MEMORY, out);
+}
+
+cl_int CLDevice::get_device_image_support(cl_bool &out) const
+{
+    return get_info(CL_DEVICE_IMAGE_SUPPORT, out);
+}
+
+cl_int CLDevice::get_device_linker_available(cl_bool &out) const
+{
+    return get_info(CL_DEVICE_LINKER_AVAILABLE, out);
+}
+
+cl_int CLDevice::get_device_preferred_interop_user_sync(cl_bool &out) const
+{
+    return get_info(CL_DEVICE_PREFERRED_INTEROP_USER_SYNC, out);
+}
 
 cl_int CLDevice::get_devices(const CLPlatform &platform, std::vector<CLDevice> &out)
 {

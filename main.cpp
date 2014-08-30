@@ -5,6 +5,10 @@
 #include "device.h"
 #include "clexception.h"
 
+std::string b2s(const cl_bool &b2s)
+{
+    return (b2s ? "yes" : "no");
+}
 
 int main(int argc, char *argv[])
 {
@@ -59,8 +63,29 @@ int main(int argc, char *argv[])
         CLDevice *device = &(*it);
         try
         {
-            CLDevice::err_check(device->get_device_name(buf));
-            std::cout << "    Device Name: " << buf << std::endl;
+            cl_bool bool_buf;
+            device->get_device_name(buf);
+            std::cout << "  - Device Name: " << buf << std::endl;
+            device->get_device_available(bool_buf);
+            std::cout << "    Device Available: " << b2s(bool_buf) << std::endl;
+            device->get_device_vendor(buf);
+            std::cout << "    Device Vendor: " << buf << std::endl;
+            device->get_device_version(buf);
+            std::cout << "    Device Version: " << buf << std::endl;
+            device->get_device_compiler_available(bool_buf);
+            std::cout << "    Device Compiler Available: " << b2s(bool_buf) << std::endl;
+            device->get_device_endian_little(bool_buf);
+            std::cout << "    Device Endian Little: " << b2s(bool_buf) << std::endl;
+            device->get_device_error_correction_support(bool_buf);
+            std::cout << "    Device Error Correction Support: " << b2s(bool_buf) << std::endl;
+            device->get_device_host_unified_memory(bool_buf);
+            std::cout << "    Device Host Unified Memory: " << b2s(bool_buf) << std::endl;
+            device->get_device_image_support(bool_buf);
+            std::cout << "    Device Image Support: " << b2s(bool_buf) << std::endl;
+            device->get_device_linker_available(bool_buf);
+            std::cout << "    Device Linker Available: " << b2s(bool_buf) << std::endl;
+            device->get_device_preferred_interop_user_sync(bool_buf);
+            std::cout << "    Device Preffered Interop User Sync: " << b2s(bool_buf) << std::endl;
         } catch (CLException &e) {
             std::cerr << e.what() << std::endl;
             return 1;
